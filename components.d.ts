@@ -7,7 +7,12 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    FontIcon: typeof import('./src/components/FontIcon.vue')['default']
+    Icon: typeof import('./src/components/Icon.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    TinyButton: typeof import('@opentiny/vue')['Button']
+    TinyPopover: typeof import('@opentiny/vue')['Popover']
+    TinyUserHead: typeof import('@opentiny/vue')['UserHead']
   }
 }
