@@ -10,14 +10,29 @@ const router = createRouter({
       component: Layout,
       children: [
         {
-          path: '/',
-          name: 'home',
-          component: () => import('../views/HomeView.vue')
+          path: '/chat',
+          name: '对话',
+          component: () => import('../views/chat/ChatMain.vue')
         },
         {
-          path: '/about',
-          name: 'about',
-          component: () => import('../views/AboutView.vue')
+          path: '/image',
+          name: '绘画',
+          component: () => import('../views/image/ImageMain.vue')
+        },
+        {
+          path: '/shop',
+          name: '商城',
+          component: () => import('../views/shop/ShopMain.vue')
+        },
+        {
+          path: '/user',
+          name: '用户中心',
+          component: () => import('../views/user/UserInfo.vue')
+        },
+        {
+          path: '/order',
+          name: '订单',
+          component: () => import('../views/order/OrderInfo.vue')
         }
       ]
     }

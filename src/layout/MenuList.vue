@@ -1,5 +1,8 @@
 <script setup lang="ts">
-import Icon from '@/components/Icon.vue'
+import Icon from '@/components/Icon.vue';
+import { storeToRefs } from 'pinia';
+import { useRouter } from 'vue-router';
+import { useSettingStore } from '@/stores/setting';
 
 // 定义菜单数据
 const menuList = [
@@ -18,13 +21,24 @@ const menuList = [
     name: '商城',
     path: '/shop'
   }
-]
+];
+
+const router = useRouter();
+const settingStore = useSettingStore();
+// 响应获取pinia中数据
+const { menu } = storeToRefs(settingStore)
+// 路由跳转
+const goToTarget = (path: string) => {
+  settingStore.updateMenu(path);
+  router.push(path);
+};
 </script>
 
 <template>
-  <div class="menu" v-for="item in menuList" :key="item.path">
+  <div class="menu" v-for="item in menuList" :key="item.path" @click="goToTarget(item.path)"
+       :class="{ selected: menu === item.path }">
     <div class="menu-icon">
-      <Icon :iconName="item.icon" class="menu-icon-item"/>
+      <Icon :iconName="item.icon" class="menu-icon-item" />
     </div>
     <div class="menu-name">{{ item.name }}</div>
   </div>
@@ -38,13 +52,14 @@ const menuList = [
   align-items: center;
   margin: 10px 5px;
   cursor: pointer;
+
   &:hover {
     border-radius: 8px;
-    box-shadow:
-      0 4px 8px 0 rgba(0, 0, 0, 0.1),
-      inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
     background: linear-gradient(270deg, rgb(50, 51, 55) 50%, rgba(70, 79, 111, 0.5) 100%);
   }
+
   color: white;
 
   .menu-icon {
@@ -65,6 +80,12 @@ const menuList = [
 .menu-icon-item {
   width: 32px;
   height: 32px;
-  color: $color-primary;
+}
+
+.selected {
+  border-radius: 8px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1),
+  inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+  background: linear-gradient(270deg, rgb(50, 51, 55) 50%, rgba(70, 79, 111, 0.5) 100%);
 }
 </style>
