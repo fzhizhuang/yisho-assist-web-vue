@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { IconHistory, IconPlus } from '@arco-design/web-vue/es/icon';
-import HistoryList from '@/views/chat/HistoryList.vue';
+import HistoryList from '@/components/HistoryList.vue';
 import type { History } from '@/types';
 
 const historyList: Array<History> = [

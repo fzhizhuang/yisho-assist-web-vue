@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { History } from '@/types';
-import HistoryItem from '@/views/chat/HistoryItem.vue';
+import HistoryItem from '@/components/HistoryItem.vue';
 // 定义props
 defineProps<{
   historyList: History[]
