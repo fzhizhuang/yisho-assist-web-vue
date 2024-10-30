@@ -8,7 +8,7 @@ const messages: Array<OpenaiMessage> = [
     chatId: '1',
     nickname: '对话小助手',
     avatar: 'https://avatars.githubusercontent.com/u/1065620?v=4',
-    content: '你好',
+    content: "# Heading\n\n```javascript\nconsole.log('Hello, World!')",
     role: 'assistant',
     type: 'text',
     sendTime: '2024/10/21 12:00:27'

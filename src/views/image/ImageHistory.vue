@@ -2,6 +2,7 @@
 import { IconHistory, IconPlus } from '@arco-design/web-vue/es/icon';
 import HistoryList from '@/components/HistoryList.vue';
 import type { History } from '@/types';
+import Icon from '@/components/Icon.vue';
 
 const historyList: Array<History> = [
   {
@@ -81,11 +82,11 @@ const historyList: Array<History> = [
   <div class="image-history-box-wrapper">
     <div class="image-history-box-header">
       <div class="image-history-box-header-icon">
-        <IconHistory size="24" />
+        <Icon icon-name="icon-image-history" style="width: 32px;height: 32px;" />
         <span>绘画历史</span>
       </div>
       <div class="image-history-box-header-btn">
-        <a-button shape="round" type="primary" long>
+        <a-button shape="round" type="primary" status="warning" long>
           创建新绘画
           <template #icon>
             <IconPlus />

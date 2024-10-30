@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import ChatModel from '@/views/chat/ChatModel.vue';
 import { Model } from '@/types';
 import { IconSend } from '@arco-design/web-vue/es/icon';
 import ChatContent from '@/views/chat/ChatContent.vue';
+import ImageModel from '@/views/image/ImageModel.vue';
 
 const chatModelList: Array<Model> = [
   {
@@ -47,7 +47,7 @@ const chatModelList: Array<Model> = [
       </div>
       <!-- 模型信息 -->
       <div class="image-message-box-header-model">
-        <ChatModel :model-list="chatModelList" />
+        <ImageModel :model-list="chatModelList" />
       </div>
     </div>
     <a-divider />

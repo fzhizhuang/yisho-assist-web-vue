@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import Icon from '@/components/Icon.vue';
-import { IconThunderbolt } from '@arco-design/web-vue/es/icon';
 import { Model } from '@/types';
 import { useModelStore } from '@/stores/model';
 import { storeToRefs } from 'pinia';
@@ -21,11 +20,13 @@ const updateSelectedModel = (item: Model) => {
 </script>
 
 <template>
-  <!-- 对话模型 -->
+  <!-- 绘画模型 -->
   <a-dropdown position="br" style="margin-top: 20px">
     <div class="model-header-title">
-      <Icon icon-name="icon-openai-blue" class="model-icon" />
-      <span>{{ selectImageModel?.name }}</span>
+      <a-tooltip content="绘画模型" position="left">
+        <Icon icon-name="icon-image-model" class="model-icon" />
+        <span>{{ selectImageModel?.name }}</span>
+      </a-tooltip>
     </div>
     <template #content>
       <div v-for="item in modelList" :key="item.mid" @click="updateSelectedModel(item)">
@@ -34,13 +35,12 @@ const updateSelectedModel = (item: Model) => {
             <div class="dropdown-item-model-wrapper">
               <Icon icon-name="icon-openai-violet" class="model-icon" v-if="item.price > 0" />
               <Icon icon-name="icon-openai-green" class="model-icon" v-else />
-              <span class="dropdown-item-model">
-            {{ item.name }}
-          </span>
+              <span class="dropdown-item-model">{{ item.name }}</span>
             </div>
-            <span class="dropdown-item-price">
-             {{ item.price }} <IconThunderbolt />
-          </span>
+            <div style="display: flex;align-items: center;gap: 2px">
+              <span>{{ item.price }}</span>
+              <Icon icon-name="icon-bean" style="width: 24px;height: 24px" />
+            </div>
           </div>
         </a-doption>
       </div>

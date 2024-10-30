@@ -1,5 +1,5 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import Layout from '@/layout/Layout.vue'
+import { createRouter, createWebHistory } from 'vue-router';
+import Layout from '@/layout/Layout.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -9,6 +9,10 @@ const router = createRouter({
       name: 'layout',
       component: Layout,
       children: [
+        {
+          path: '/',
+          redirect: '/chat'
+        },
         {
           path: '/chat',
           name: '对话',
@@ -35,6 +39,7 @@ const router = createRouter({
           component: () => import('../views/order/OrderInfo.vue')
         }
       ]
+
     },
     {
       path: '/login',
@@ -42,6 +47,6 @@ const router = createRouter({
       component: () => import('@/views/login/Login.vue')
     }
   ]
-})
+});
 
-export default router
+export default router;

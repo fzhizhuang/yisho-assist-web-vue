@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { IconHistory, IconPlus } from '@arco-design/web-vue/es/icon';
+import { IconPlus } from '@arco-design/web-vue/es/icon';
 import HistoryList from '@/components/HistoryList.vue';
 import type { History } from '@/types';
+import Icon from '@/components/Icon.vue';
 
 const historyList: Array<History> = [
   {
@@ -81,7 +82,7 @@ const historyList: Array<History> = [
   <div class="chat-history-box-wrapper">
     <div class="chat-history-box-header">
       <div class="chat-history-box-header-icon">
-        <IconHistory size="24" />
+        <Icon icon-name="icon-chat-history" style="width: 32px;height: 32px;" />
         <span>对话历史</span>
       </div>
       <div class="chat-history-box-header-btn">
