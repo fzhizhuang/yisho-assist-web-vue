@@ -1,36 +1,35 @@
 <script setup lang="ts">
-import { IconUser,IconExport,IconBookmark } from '@arco-design/web-vue/es/icon';
-import { useRouter } from 'vue-router';
-import { useSettingStore } from '@/stores/setting';
+import { IconUser, IconExport, IconBookmark } from '@arco-design/web-vue/es/icon'
+import { useRouter } from 'vue-router'
+import { useSettingStore } from '@/stores/setting'
+import { useUserStore } from '@/stores/user'
+import { storeToRefs } from 'pinia'
 // 路由
-const router = useRouter();
-const settingStore = useSettingStore();
+const router = useRouter()
+const settingStore = useSettingStore()
 
 // 跳转到目标页面
 const goToTargetPage = (target: string) => {
-  settingStore.updateMenu(target);
-  router.push(target);
-};
+  settingStore.updateMenu(target)
+  router.push(target)
+}
 
 // 注销登录
 const logout = () => {
-  console.log("注销登录");
-
+  console.log('注销登录')
 }
+
+const userStore = useUserStore()
+const { userInfo } = storeToRefs(userStore)
 </script>
 
 <template>
   <div class="footer-box">
     <div class="footer-box-header">
       <!-- 头像 -->
-      <a-avatar>
-        <img
-          alt="avatar"
-          src="https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/3ee5f13fb09879ecb5185e440cef6eb9.png~tplv-uwbnlip3yd-webp.webp"
-        />
-      </a-avatar>
+      <a-avatar :image-url="userInfo?.user?.avatar" />
       <!-- 用户昵称-->
-      <span class="footer-box-name">用户昵称</span>
+      <span class="footer-box-name">{{ userInfo?.user?.username }}</span>
     </div>
     <a-divider />
     <div class="footer-box-menu">
@@ -44,7 +43,7 @@ const logout = () => {
       <!-- 我的订单 -->
       <div class="footer-box-menu-item" @click="goToTargetPage('/order')">
         <!-- icon -->
-        <IconBookmark/>
+        <IconBookmark />
         <!-- text -->
         <span class="footer-box-menu-text">我的订单</span>
       </div>
@@ -60,16 +59,14 @@ const logout = () => {
 </template>
 
 <style scoped lang="scss">
-
 .footer-box {
   margin: 2px 20px;
   box-sizing: border-box;
   padding: 20px 12px 12px 12px;
   border-radius: 16px;
   background-size: contain;
-  box-shadow: 0 2px 20px 0 hsla(0, 6%, 64%, .06);
-  background: #939ec5 url(https://chatglm.cn/img/common_bg.af810ae3.png) no-repeat;
-
+  box-shadow: 0 2px 20px 0 hsla(0, 6%, 64%, 0.06);
+  background: #939ec5 url('@/assets/image/bg.png') no-repeat;
 
   .footer-box-header {
     display: flex;
@@ -97,6 +94,7 @@ const logout = () => {
       cursor: pointer;
       gap: 10px;
       padding-left: 10px;
+
       &:hover {
         border-radius: 8px;
         box-shadow:

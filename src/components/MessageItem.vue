@@ -1,32 +1,32 @@
 <script setup lang="ts">
 // 定义响应式数据，用于存储OpenAI生成的Markdown内容
-import { IconCopy, IconDelete } from '@arco-design/web-vue/es/icon';
-import useClipboard from 'vue-clipboard3';
-import { Message } from '@arco-design/web-vue';
-import type { OpenaiMessage } from '@/types';
-import MarkdownPreview from '@/components/MarkdownPreview.vue';
+import { IconCopy, IconDelete } from '@arco-design/web-vue/es/icon'
+import useClipboard from 'vue-clipboard3'
+import { Message } from '@arco-design/web-vue'
+import type { OpenaiMessage } from '@/types'
+import MarkdownPreview from '@/components/MarkdownPreview.vue'
 
 // 定义组件
 defineProps<{
-  messages: OpenaiMessage[];
-}>();
+  messages: OpenaiMessage[]
+}>()
 
-const { toClipboard } = useClipboard();
+const { toClipboard } = useClipboard()
 
 // 复制
 const handleCopy = async (content: string) => {
   try {
-    await toClipboard(content);
-    Message.success('复制成功');
+    await toClipboard(content)
+    Message.success('复制成功')
   } catch (e) {
-    console.error(e);
-    Message.error('复制失败');
+    console.error(e)
+    Message.error('复制失败')
   }
-};
+}
 // 删除消息
 const handleDeleteMessage = (messageId: string) => {
-  console.log(messageId);
-};
+  console.log(messageId)
+}
 </script>
 
 <template>
@@ -61,7 +61,6 @@ const handleDeleteMessage = (messageId: string) => {
 
 <style scoped lang="scss">
 .chat-message-item {
-
   margin-top: 10px;
 
   .chat-message-item-header {
@@ -95,4 +94,3 @@ const handleDeleteMessage = (messageId: string) => {
   }
 }
 </style>
-

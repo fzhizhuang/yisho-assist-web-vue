@@ -1,8 +1,14 @@
 <script setup lang="ts">
-import LoginBanner from '@/assets/image/login.svg';
-import PasswordLogin from '@/views/login/PasswordLogin.vue';
-import EmailLogin from '@/views/login/EmailLogin.vue';
-import WxLogin from '@/views/login/WxLogin.vue';
+import LoginBanner from '@/assets/image/login.svg'
+import PasswordLogin from '@/views/login/PasswordLogin.vue'
+import EmailLogin from '@/views/login/EmailLogin.vue'
+import WxLogin from '@/views/login/WxLogin.vue'
+import { ref } from 'vue'
+
+const activeKey = ref('password')
+const handleTabChange = (key: string) => {
+  activeKey.value = key
+}
 </script>
 
 <template>
@@ -12,7 +18,7 @@ import WxLogin from '@/views/login/WxLogin.vue';
     </div>
     <div class="login-box-right">
       <div class="login-box-right-box">
-        <a-tabs default-active-key="password" style="width: 400px" :animation="true">
+        <a-tabs default-active-key="password" style="width: 400px" :animation="true" @change="handleTabChange">
           <a-tab-pane key="password" title="密码登录">
             <PasswordLogin />
           </a-tab-pane>
@@ -20,7 +26,7 @@ import WxLogin from '@/views/login/WxLogin.vue';
             <EmailLogin />
           </a-tab-pane>
           <a-tab-pane key="qrcode" title="扫码登录">
-            <WxLogin />
+            <WxLogin :active-key="activeKey" />
           </a-tab-pane>
         </a-tabs>
       </div>

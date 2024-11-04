@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed } from 'vue'
 
 // 定义props
 const props = defineProps({
@@ -7,10 +7,10 @@ const props = defineProps({
     type: String,
     required: true
   }
-});
+})
 
 // 将props中的值提取为响应式数据或计算属性以便在模板中使用更方便
-const iconName = computed(() => props.iconName);
+const iconName = computed(() => props.iconName)
 </script>
 
 <template>

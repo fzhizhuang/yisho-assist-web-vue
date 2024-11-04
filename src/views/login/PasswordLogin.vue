@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import { reactive } from 'vue';
+import { passwordAuth } from '@/api/auth';
+import { setToken } from '@/http/token';
+import { Message } from '@arco-design/web-vue';
+import { useRouter } from 'vue-router';
 
 const EMAIL_REGEX: string = '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$';
-// 密码正则表达式，密码格式必须是字母|数字|@%_$#&*组合,6-12位
-const PASSWORD_REGEX: string = '^[a-zA-Z0-9@%_$#&*]{6,12}$';
+// 密码正则表达式，密码必须包含字母和数字,6-24位
+const PASSWORD_REGEX: string = '^[a-zA-Z0-9_-]{6,24}$';
 
 // 密码登录表单
 const passwordForm = reactive({
@@ -19,7 +23,7 @@ const passwordRules = {
       message: '账号必填'
     },
     {
-      validator: (value, callback) => {
+      validator: (value: any, callback: any) => {
         if (!value.match(EMAIL_REGEX)) {
           return callback('请输入正确的邮箱');
         } else {
@@ -34,9 +38,9 @@ const passwordRules = {
       message: '密码必填'
     },
     {
-      validator: (value, callback) => {
+      validator: (value: any, callback: any) => {
         if (!value.match(PASSWORD_REGEX)) {
-          return callback('密码格式必须是字母|数字|@%_$#&*组合,6-12位');
+          return callback('密码必须包含数字、字母，长度为6-16');
         } else {
           return callback();
         }
@@ -51,18 +55,38 @@ const resetPasswordForm = () => {
   passwordForm.account = '';
 };
 
+const router = useRouter();
 // 处理密码登录
-const handlePasswordLoginSubmit = ({ values, errors }) => {
-  console.log('values:', values, '\nerrors:', errors);
-  resetPasswordForm();
+const handlePasswordLoginSubmit = async ({ values }: any) => {
+  // 解析账号和密码
+  const { account, password } = values;
+  console.log(account, password);
+  await passwordAuth({
+    email: account,
+    password: password
+  }).then((result) => {
+    // 设置token
+    setToken(result);
+    // 提示
+    Message.success('登录成功');
+    // 跳转首页
+    router.push('/chat');
+    // 重置表单
+    resetPasswordForm();
+  });
 };
 </script>
 
 <template>
   <!-- 密码登录 -->
   <div class="password-form">
-    <a-form :model="passwordForm" :rules="passwordRules" layout="vertical" size="large"
-            @submit="handlePasswordLoginSubmit">
+    <a-form
+      :model="passwordForm"
+      :rules="passwordRules"
+      layout="vertical"
+      size="large"
+      @submit="handlePasswordLoginSubmit"
+    >
       <a-form-item field="account" label="账号">
         <a-input v-model="passwordForm.account" placeholder="请输入账号" />
       </a-form-item>
@@ -76,6 +100,4 @@ const handlePasswordLoginSubmit = ({ values, errors }) => {
   </div>
 </template>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

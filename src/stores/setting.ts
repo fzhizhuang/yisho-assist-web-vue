@@ -1,4 +1,5 @@
-import { defineStore } from 'pinia'
+import { defineStore } from 'pinia';
+
 export const useSettingStore = defineStore('setting', {
   state: () => ({
     // 当前菜单
@@ -10,7 +11,5 @@ export const useSettingStore = defineStore('setting', {
       this.menu = newMenu;
     }
   },
-  persist: {
-    enabled: true
-  }
+  persist: true
 });

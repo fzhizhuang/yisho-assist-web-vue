@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import ImageHistory from '@/views/image/ImageHistory.vue';
-import ImageMessage from '@/views/image/ImageMessage.vue';
+import ImageHistory from '@/views/image/ImageHistory.vue'
+import ImageMessage from '@/views/image/ImageMessage.vue'
 </script>
 
 <template>

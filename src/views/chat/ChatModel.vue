@@ -1,29 +1,31 @@
 <script setup lang="ts">
-import Icon from '@/components/Icon.vue';
-import { Model } from '@/types';
-import { useModelStore } from '@/stores/model';
-import { storeToRefs } from 'pinia';
+import Icon from '@/components/Icon.vue'
+import { Model } from '@/types'
+import { useModelStore } from '@/stores/model'
+import { storeToRefs } from 'pinia'
 
 // 定义props
 defineProps<{
   modelList: Model[]
-}>();
+}>()
 
-const modelStore = useModelStore();
-const { selectChatModel } = storeToRefs(modelStore);
+const modelStore = useModelStore()
+const { selectChatModel } = storeToRefs(modelStore)
 
 // 更新选中的模型
 const updateSelectedModel = (item: Model) => {
-  modelStore.updateSelectChatModel(item);
-};
+  modelStore.updateSelectChatModel(item)
+}
 </script>
 
 <template>
   <!-- 对话模型 -->
   <a-dropdown position="br" style="margin-top: 20px">
     <div class="model-header-title">
-      <Icon icon-name="icon-chat-model" class="model-icon" />
-      <span>{{ selectChatModel?.name }}</span>
+      <a-tooltip content="对话模型" position="left">
+        <Icon icon-name="icon-chat-model" class="model-icon" />
+        <span>{{ selectChatModel?.name }}</span>
+      </a-tooltip>
     </div>
     <template #content>
       <div v-for="item in modelList" :key="item.mid" @click="updateSelectedModel(item)">
@@ -34,9 +36,9 @@ const updateSelectedModel = (item: Model) => {
               <Icon icon-name="icon-openai-green" class="model-icon" v-else />
               <span class="dropdown-item-model">{{ item.name }}</span>
             </div>
-            <div style="display: flex;align-items: center;gap: 2px">
+            <div style="display: flex; align-items: center; gap: 2px">
               <span>{{ item.price }}</span>
-              <Icon icon-name="icon-bean" style="width: 24px;height: 24px" />
+              <Icon icon-name="icon-bean" style="width: 24px; height: 24px" />
             </div>
           </div>
         </a-doption>

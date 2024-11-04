@@ -1,5 +1,6 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import Layout from '@/layout/Layout.vue';
+import { createRouter, createWebHistory } from 'vue-router'
+import Layout from '@/layout/Layout.vue'
+import { getToken } from '@/http/token'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -11,6 +12,7 @@ const router = createRouter({
       children: [
         {
           path: '/',
+          name: '首页',
           redirect: '/chat'
         },
         {
@@ -34,12 +36,31 @@ const router = createRouter({
           component: () => import('../views/user/UserInfo.vue')
         },
         {
+          path: '/user/info',
+          name: '修改用户',
+          component: () => import('../views/user/ViewUser.vue')
+        },
+        {
+          path: '/modifyPassword',
+          name: '修改密码',
+          component: () => import('../views/user/ModifyPassword.vue')
+        },
+        {
+          path: '/modifyEmail',
+          name: '修改邮箱',
+          component: () => import('../views/user/ModifyEmail.vue')
+        },
+        {
+          path: '/setPassword',
+          name: '设置密码',
+          component: () => import('../views/user/SetPassword.vue')
+        },
+        {
           path: '/order',
           name: '订单',
           component: () => import('../views/order/OrderInfo.vue')
         }
       ]
-
     },
     {
       path: '/login',
@@ -47,6 +68,16 @@ const router = createRouter({
       component: () => import('@/views/login/Login.vue')
     }
   ]
-});
+})
 
-export default router;
+router.beforeEach((to, from, next) => {
+  const token = getToken()
+  // 判断是否登录
+  if (!token && to.path !== '/login') {
+    next('/login')
+  } else {
+    next()
+  }
+})
+
+export default router

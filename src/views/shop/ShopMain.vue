@@ -1,11 +1,5 @@
-<script setup lang="ts">
+<script setup lang="ts"></script>
 
-</script>
+<template>商城主页</template>
 
-<template>
-商城主页
-</template>
-
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

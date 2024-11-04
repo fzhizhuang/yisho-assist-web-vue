@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import Icon from '@/components/Icon.vue';
-import { storeToRefs } from 'pinia';
-import { useRouter } from 'vue-router';
-import { useSettingStore } from '@/stores/setting';
+import Icon from '@/components/Icon.vue'
+import { storeToRefs } from 'pinia'
+import { useRouter } from 'vue-router'
+import { useSettingStore } from '@/stores/setting'
 
 // 定义菜单数据
 const menuList = [
@@ -21,22 +21,27 @@ const menuList = [
     name: '商城',
     path: '/shop'
   }
-];
+]
 
-const router = useRouter();
-const settingStore = useSettingStore();
+const router = useRouter()
+const settingStore = useSettingStore()
 // 响应获取pinia中数据
 const { menu } = storeToRefs(settingStore)
 // 路由跳转
 const goToTarget = (path: string) => {
-  settingStore.updateMenu(path);
-  router.push(path);
-};
+  settingStore.updateMenu(path)
+  router.push(path)
+}
 </script>
 
 <template>
-  <div class="menu" v-for="item in menuList" :key="item.path" @click="goToTarget(item.path)"
-       :class="{ selected: menu === item.path }">
+  <div
+    class="menu"
+    v-for="item in menuList"
+    :key="item.path"
+    @click="goToTarget(item.path)"
+    :class="{ selected: menu === item.path }"
+  >
     <div class="menu-icon">
       <Icon :iconName="item.icon" class="menu-icon-item" />
     </div>
@@ -55,8 +60,9 @@ const goToTarget = (path: string) => {
 
   &:hover {
     border-radius: 8px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1),
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+    box-shadow:
+      0 4px 8px 0 rgba(0, 0, 0, 0.1),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
     background: linear-gradient(270deg, rgb(50, 51, 55) 50%, rgba(70, 79, 111, 0.5) 100%);
   }
 
@@ -84,8 +90,9 @@ const goToTarget = (path: string) => {
 
 .selected {
   border-radius: 8px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1),
-  inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+  box-shadow:
+    0 4px 8px 0 rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
   background: linear-gradient(270deg, rgb(50, 51, 55) 50%, rgba(70, 79, 111, 0.5) 100%);
 }
 </style>

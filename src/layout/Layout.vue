@@ -1,10 +1,19 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { watchEffect } from 'vue';
 import MenuList from '@/layout/MenuList.vue';
 import Icon from '@/components/Icon.vue';
 import FooterBox from '@/layout/FooterBox.vue';
+import { useUserStore } from '@/stores/user';
+import { storeToRefs } from 'pinia';
+import { IconUser } from '@arco-design/web-vue/es/icon';
 
-const imgUrl = ref(`https://res.hc-cdn.com/tiny-vue-web-doc/3.18.9.20240902190525/static/images/ld.png`);
+const userStore = useUserStore();
+const { userInfo } = storeToRefs(userStore);
+
+// 获取用户信息
+watchEffect(() => {
+  userStore.getUserInfo();
+});
 </script>
 
 <template>
@@ -22,10 +31,26 @@ const imgUrl = ref(`https://res.hc-cdn.com/tiny-vue-web-doc/3.18.9.2024090219052
       <div class="footer-container">
         <a-trigger position="top" auto-fit-position :unmount-on-close="false" trigger="click">
           <div class="footer">
-            <div class="avatar">
-              <a-avatar shape="circle" :image-url="imgUrl" />
+            <div class="user">
+              <div class="avatar">
+                <a-avatar shape="circle" :image-url="userInfo?.user?.avatar" />
+              </div>
+              <span class="user-name">{{ userInfo?.user?.username }}</span>
             </div>
-            <span class="user-name">爱飞的鱼</span>
+            <div class="quota">
+              <a-tag color="green" size="small">
+                <template #icon>
+                  <IconUser />
+                </template>
+                {{ userInfo?.user?.role === 1 ? '管理员' : '普通用户' }}
+              </a-tag>
+              <a-tooltip content="剩余额度" position="right">
+                <div class="quota-title">
+                  <Icon icon-name="icon-bean" class="icon" />
+                </div>
+                <div class="quota-value">{{ userInfo?.quota?.surplus }}</div>
+              </a-tooltip>
+            </div>
           </div>
           <template #content>
             <FooterBox />
@@ -89,14 +114,36 @@ const imgUrl = ref(`https://res.hc-cdn.com/tiny-vue-web-doc/3.18.9.2024090219052
       position: absolute;
       bottom: 20px;
       width: 180px;
-      height: 64px;
+      height: 88px;
       margin-left: 10px;
       display: flex;
-      justify-content: left;
-      align-items: center;
+      flex-direction: column;
+      gap: 10px;
       border-radius: 10px;
       box-shadow: 0 20px 24px 0 rgba(0, 0, 0, 0.5);
       background: rgb(35, 38, 39);
+
+      .user {
+        display: flex;
+        justify-content: left;
+        align-items: center;
+        padding-top: 5px;
+        padding-left: 10px;
+      }
+
+      .quota {
+        display: flex;
+        justify-content: left;
+        align-items: center;
+        color: #ffffff;
+        padding-left: 15px;
+        gap: 5px;
+
+        .icon {
+          width: 24px;
+          height: 24px;
+        }
+      }
 
       .avatar {
         padding-left: 10px;

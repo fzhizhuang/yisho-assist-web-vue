@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { IconPlus } from '@arco-design/web-vue/es/icon';
-import HistoryList from '@/components/HistoryList.vue';
-import type { History } from '@/types';
-import Icon from '@/components/Icon.vue';
+import { IconPlus } from '@arco-design/web-vue/es/icon'
+import HistoryList from '@/components/HistoryList.vue'
+import type { History } from '@/types'
+import Icon from '@/components/Icon.vue'
 
 const historyList: Array<History> = [
   {
@@ -75,14 +75,14 @@ const historyList: Array<History> = [
     sendTime: '2023-05-05',
     title: '测试'
   }
-];
+]
 </script>
 
 <template>
   <div class="chat-history-box-wrapper">
     <div class="chat-history-box-header">
       <div class="chat-history-box-header-icon">
-        <Icon icon-name="icon-chat-history" style="width: 32px;height: 32px;" />
+        <Icon icon-name="icon-chat-history" style="width: 32px; height: 32px" />
         <span>对话历史</span>
       </div>
       <div class="chat-history-box-header-btn">
@@ -102,7 +102,6 @@ const historyList: Array<History> = [
 
 <style scoped lang="scss">
 .chat-history-box-wrapper {
-
   // 创建新对话
   .chat-history-box-header {
     display: flex;
@@ -117,5 +116,4 @@ const historyList: Array<History> = [
     }
   }
 }
-
 </style>

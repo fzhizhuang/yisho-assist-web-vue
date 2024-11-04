@@ -1,23 +1,26 @@
 <script setup lang="ts">
-import { IconDelete } from '@arco-design/web-vue/es/icon';
-import { History } from '@/types';
-import { useHistoryStore } from '@/stores/history';
-import { storeToRefs } from 'pinia';
+import { IconDelete } from '@arco-design/web-vue/es/icon'
+import { History } from '@/types'
+import { useHistoryStore } from '@/stores/history'
+import { storeToRefs } from 'pinia'
 // 定义props
 defineProps<{
   history: History
-}>();
-const historyStore = useHistoryStore();
-const { chatId } = storeToRefs(historyStore);
+}>()
+const historyStore = useHistoryStore()
+const { chatId } = storeToRefs(historyStore)
 const deleteHistory = (chatId: string) => {
-  console.log(chatId);
-};
+  console.log(chatId)
+}
 </script>
 
 <template>
   <!-- 历史Item -->
-  <div class="history-item" :class="chatId === history.chatId ? 'selected' : ''"
-       @click="historyStore.updateChatId(history.chatId)">
+  <div
+    class="history-item"
+    :class="chatId === history.chatId ? 'selected' : ''"
+    @click="historyStore.updateChatId(history.chatId)"
+  >
     <div class="history-item-img">
       <a-avatar shape="square">{{ history.avatar }}</a-avatar>
     </div>
@@ -36,7 +39,6 @@ const deleteHistory = (chatId: string) => {
       </a-button>
     </div>
   </div>
-
 </template>
 
 <style scoped lang="scss">
@@ -50,8 +52,9 @@ const deleteHistory = (chatId: string) => {
 
   &:hover {
     border-radius: 8px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1),
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+    box-shadow:
+      0 4px 8px 0 rgba(0, 0, 0, 0.1),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
     background: rgba(207, 213, 225, 0.5) 100%;
   }
 
@@ -77,7 +80,6 @@ const deleteHistory = (chatId: string) => {
   }
 }
 
-
 .history-item .history-item-btn {
   display: none;
   margin-right: 5px;
@@ -89,8 +91,9 @@ const deleteHistory = (chatId: string) => {
 
 .selected {
   border-radius: 8px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1),
-  inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+  box-shadow:
+    0 4px 8px 0 rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
   background: rgba(70, 79, 111, 0.5) 100%;
 }
 </style>

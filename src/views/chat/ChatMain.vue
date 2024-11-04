@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import ChatHistory from '@/views/chat/ChatHistory.vue';
-import ChatMessage from '@/views/chat/ChatMessage.vue';
+import ChatHistory from '@/views/chat/ChatHistory.vue'
+import ChatMessage from '@/views/chat/ChatMessage.vue'
 </script>
 
 <template>
   <div class="chat-box">
     <div class="chat-history-box">
-      <ChatHistory/>
+      <ChatHistory />
     </div>
     <a-divider direction="vertical" />
     <div class="chat-message-box">
-      <ChatMessage/>
+      <ChatMessage />
     </div>
   </div>
 </template>

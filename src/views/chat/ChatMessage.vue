@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import ChatModel from '@/views/chat/ChatModel.vue';
-import { Model } from '@/types';
-import { IconSend } from '@arco-design/web-vue/es/icon';
-import ChatContent from '@/views/chat/ChatContent.vue';
+import ChatModel from '@/views/chat/ChatModel.vue'
+import { Model } from '@/types'
+import { IconSend } from '@arco-design/web-vue/es/icon'
+import ChatContent from '@/views/chat/ChatContent.vue'
 
 const chatModelList: Array<Model> = [
   {
@@ -29,7 +29,7 @@ const chatModelList: Array<Model> = [
     price: 10,
     type: 1
   }
-];
+]
 </script>
 
 <template>
@@ -61,8 +61,11 @@ const chatModelList: Array<Model> = [
       <div class="chat-message-box-content-text">
         <!-- 输入框 -->
         <div class="chat-message-box-content-text-input">
-          <a-textarea placeholder="输入聊天内容..." :auto-size="{minRows:5,maxRows:5 }"
-                      style="border: none;background: none" />
+          <a-textarea
+            placeholder="输入聊天内容..."
+            :auto-size="{ minRows: 5, maxRows: 5 }"
+            style="border: none; background: none"
+          />
         </div>
         <div class="chat-message-box-content-text-button">
           <a-button shape="round" status="danger">

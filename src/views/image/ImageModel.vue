@@ -1,22 +1,22 @@
 <script setup lang="ts">
-import Icon from '@/components/Icon.vue';
-import { Model } from '@/types';
-import { useModelStore } from '@/stores/model';
-import { storeToRefs } from 'pinia';
+import Icon from '@/components/Icon.vue'
+import { Model } from '@/types'
+import { useModelStore } from '@/stores/model'
+import { storeToRefs } from 'pinia'
 
 // 定义props
 defineProps<{
   modelList: Model[]
-}>();
+}>()
 
-const modelStore = useModelStore();
-const { selectImageModel } = storeToRefs(modelStore);
-console.log(selectImageModel);
+const modelStore = useModelStore()
+const { selectImageModel } = storeToRefs(modelStore)
+console.log(selectImageModel)
 
 // 更新选中的模型
 const updateSelectedModel = (item: Model) => {
-  modelStore.updateSelectImageModel(item);
-};
+  modelStore.updateSelectImageModel(item)
+}
 </script>
 
 <template>
@@ -37,9 +37,9 @@ const updateSelectedModel = (item: Model) => {
               <Icon icon-name="icon-openai-green" class="model-icon" v-else />
               <span class="dropdown-item-model">{{ item.name }}</span>
             </div>
-            <div style="display: flex;align-items: center;gap: 2px">
+            <div style="display: flex; align-items: center; gap: 2px">
               <span>{{ item.price }}</span>
-              <Icon icon-name="icon-bean" style="width: 24px;height: 24px" />
+              <Icon icon-name="icon-bean" style="width: 24px; height: 24px" />
             </div>
           </div>
         </a-doption>

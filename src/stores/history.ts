@@ -1,4 +1,5 @@
-import { defineStore } from 'pinia'
+import { defineStore } from 'pinia';
+
 export const useHistoryStore = defineStore('history', {
   state: () => ({
     // 当前会话
@@ -10,7 +11,5 @@ export const useHistoryStore = defineStore('history', {
       this.chatId = newChatId;
     }
   },
-  persist: {
-    enabled: true
-  }
+  persist: true
 });
