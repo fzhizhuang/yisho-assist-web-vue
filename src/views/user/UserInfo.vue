@@ -1,38 +1,33 @@
 <script setup lang="ts">
-import { useUserStore } from '@/stores/user';
-import { storeToRefs } from 'pinia';
-import Icon from '@/components/Icon.vue';
-import { IconEdit } from '@arco-design/web-vue/es/icon';
-import { useRouter } from 'vue-router';
-import ImageCropper from '@/components/ImageCropper.vue';
+import { useUserStore } from '@/stores/user'
+import { storeToRefs } from 'pinia'
+import Icon from '@/components/Icon.vue'
+import { IconEdit } from '@arco-design/web-vue/es/icon'
+import { useRouter } from 'vue-router'
+import ImageCropper from '@/components/ImageCropper.vue'
 
-const userStore = useUserStore();
-const { userInfo } = storeToRefs(userStore);
-const router = useRouter();
+const userStore = useUserStore()
+const { userInfo } = storeToRefs(userStore)
+const router = useRouter()
 
 // 更新显示修改头像弹窗
 const openAvatarDialog = () => {
-  userStore.updateShowCropper(true);
-};
+  userStore.updateShowCropper(true)
+}
 
 /**
  * 路由跳转
  * @param path 路径
  */
 const goToTargetPage = (path: string) => {
-  router.push(path);
-};
+  router.push(path)
+}
 </script>
 
 <template>
   <div class="user-box">
     <div class="user-box-header-info">
-      <a-avatar
-        :size="100"
-        :image-url="userInfo?.user?.avatar"
-        trigger-type="mask"
-        @click="openAvatarDialog"
-      >
+      <a-avatar :size="100" :image-url="userInfo?.user?.avatar" trigger-type="mask" @click="openAvatarDialog">
         <template #trigger-icon>
           <IconEdit />
         </template>

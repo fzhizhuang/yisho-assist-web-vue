@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import { watchEffect } from 'vue';
-import MenuList from '@/layout/MenuList.vue';
-import Icon from '@/components/Icon.vue';
-import FooterBox from '@/layout/FooterBox.vue';
-import { useUserStore } from '@/stores/user';
-import { storeToRefs } from 'pinia';
-import { IconUser } from '@arco-design/web-vue/es/icon';
+import { watchEffect } from 'vue'
+import MenuList from '@/layout/MenuList.vue'
+import Icon from '@/components/Icon.vue'
+import FooterBox from '@/layout/FooterBox.vue'
+import { useUserStore } from '@/stores/user'
+import { storeToRefs } from 'pinia'
+import { IconUser } from '@arco-design/web-vue/es/icon'
 
-const userStore = useUserStore();
-const { userInfo } = storeToRefs(userStore);
+const userStore = useUserStore()
+const { userInfo } = storeToRefs(userStore)
 
 // 获取用户信息
 watchEffect(() => {
-  userStore.getUserInfo();
-});
+  userStore.getUserInfo()
+})
 </script>
 
 <template>

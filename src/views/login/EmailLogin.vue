@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import { reactive } from 'vue';
-import { useCounter } from '@/utils/counter';
-import { mailAuth, sendCode } from '@/api/auth';
-import { Message } from '@arco-design/web-vue';
-import { MailTemplate } from '@/types';
-import { setToken } from '@/http/token';
-import { useRouter } from 'vue-router';
+import { reactive } from 'vue'
+import { useCounter } from '@/utils/counter'
+import { mailAuth, sendCode } from '@/api/auth'
+import { Message } from '@arco-design/web-vue'
+import { MailTemplate } from '@/types'
+import { setToken } from '@/http/token'
+import { useRouter } from 'vue-router'
 
-const EMAIL_REGEX: string = '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$';
+const EMAIL_REGEX: string = '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'
 
 // 密码登录表单
 const emailForm = reactive({
   email: '',
   code: ''
-});
+})
 
 // 定义表单校验规则
 const emailRules = {
@@ -23,11 +23,11 @@ const emailRules = {
       message: '邮箱必填'
     },
     {
-      validator: (value, callback) => {
+      validator: (value: any, callback: any) => {
         if (!value.match(EMAIL_REGEX)) {
-          return callback('请输入正确的邮箱');
+          return callback('请输入正确的邮箱')
         } else {
-          return callback();
+          return callback()
         }
       }
     }
@@ -38,52 +38,52 @@ const emailRules = {
       message: '验证码必填'
     }
   ]
-};
+}
 
 // 重置密码
 const resetEmailForm = () => {
-  emailForm.code = '';
+  emailForm.code = ''
 
-  emailForm.email = '';
-};
+  emailForm.email = ''
+}
 
-const { text, isSend, handleCounter } = useCounter();
-const router = useRouter();
+const { text, isSend, handleCounter } = useCounter()
+const router = useRouter()
 // 处理密码登录
 const handleEmailLoginSubmit = async ({ values }: any) => {
   // 解析账号和验证码
-  const { email, code } = values;
+  const { email, code } = values
   mailAuth({
     email: email,
     code: code
   }).then((result) => {
     // 设置token
-    setToken(result);
+    setToken(result)
     // 提示
-    Message.success('登录成功');
+    Message.success('登录成功')
     // 跳转首页
-    router.push('/chat');
+    router.push('/chat')
     // 重置表单
-    resetEmailForm();
-  });
-};
+    resetEmailForm()
+  })
+}
 
 // 处理发送验证码
 const handleCode = () => {
   // 倒计时
-  handleCounter();
+  handleCounter()
   // 校验邮箱
   if (!emailForm.email.match(EMAIL_REGEX) || emailForm.email === '') {
-    return;
+    return
   }
   // 发送验证码
   sendCode({
     mail: emailForm.email,
     template: MailTemplate.authentic
   }).then(() => {
-    Message.success('发送成功');
-  });
-};
+    Message.success('发送成功')
+  })
+}
 </script>
 
 <template>
@@ -96,7 +96,7 @@ const handleCode = () => {
       <a-form-item field="code" label="验证码">
         <a-input v-model="emailForm.code" placeholder="请输入验证码" />
         <a-button :disabled="isSend" @click="handleCode" type="primary" status="warning" style="width: 200px"
-        >{{ text }}
+          >{{ text }}
         </a-button>
       </a-form-item>
       <a-form-item>

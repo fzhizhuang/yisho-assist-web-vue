@@ -36,10 +36,41 @@ export interface UserInfoRes {
   }
 }
 
-/**
- * 上传头像参数
- */
-export interface UploadAvatarParams {
-  /* 文件 */
-  file: object
+// 绑定邮箱参数接口
+export interface BindEmailParams {
+  /*邮箱 */
+  email: string
+
+  /*验证码 */
+  code: string
+}
+
+// 设置密码参数接口
+export interface SetPasswordParams {
+  /*密码 */
+  password: string
+
+  /*确认密码 */
+  confirmPassword: string
+}
+
+// 修改密码参数接口
+export interface ModifyPasswordParams {
+  /*旧密码 */
+  oldPassword: string
+
+  /*新密码 */
+  newPassword: string
+
+  /*确认密码 */
+  confirmPassword: string
+}
+
+export const UserRegx = {
+  password: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{4,12}$/,
+  passwordError: '密码必须包含字母和数字,4-12位',
+  email: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+  emailError: '非法邮箱',
+  code: /^\d{4}$/,
+  codeError: '验证码4位数字'
 }

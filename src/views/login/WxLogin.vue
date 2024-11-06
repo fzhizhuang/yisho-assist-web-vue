@@ -1,40 +1,40 @@
 <script setup lang="ts">
-import { getQrCode, wxAuth } from '@/api/auth';
-import { ref, watchEffect } from 'vue';
-import { Message } from '@arco-design/web-vue';
-import { setToken } from '@/http/token';
-import { useRouter } from 'vue-router';
+import { getQrCode, wxAuth } from '@/api/auth'
+import { ref, watchEffect } from 'vue'
+import { Message } from '@arco-design/web-vue'
+import { setToken } from '@/http/token'
+import { useRouter } from 'vue-router'
 
 // 接收父组件传参
 const props = defineProps<{
   activeKey: string
-}>();
+}>()
 
 // 微信登录二维码url
-const wxLoginQrcodeUrl = ref('');
-const ticket = ref('');
+const wxLoginQrcodeUrl = ref('')
+const ticket = ref('')
 
 // 获取微信登录二维码
 const getWxLoginQrcode = async () => {
   await getQrCode().then((res) => {
-    wxLoginQrcodeUrl.value = res.url;
-    ticket.value = res.ticket;
-  });
-};
+    wxLoginQrcodeUrl.value = res.url
+    ticket.value = res.ticket
+  })
+}
 
-let interval: any;
+let interval: any
 // 监听激活状态
 watchEffect(() => {
   if (props.activeKey === 'qrcode') {
-    getWxLoginQrcode();
-    pollingWxLoginStatus();
+    getWxLoginQrcode()
+    pollingWxLoginStatus()
   } else {
     // 清除定时器，防止多次轮询
-    clearInterval(interval);
+    clearInterval(interval)
   }
-});
+})
 
-const router = useRouter();
+const router = useRouter()
 // 轮询微信登录状态
 const pollingWxLoginStatus = async () => {
   interval = setInterval(() => {
@@ -42,14 +42,14 @@ const pollingWxLoginStatus = async () => {
       ticket: ticket.value
     }).then((result) => {
       // 设置token
-      setToken(result);
+      setToken(result)
       // 提示
-      Message.success('登录成功');
+      Message.success('登录成功')
       // 跳转首页
-      router.push('/chat');
-    });
-  }, 1000);
-};
+      router.push('/chat')
+    })
+  }, 1000)
+}
 </script>
 
 <template>

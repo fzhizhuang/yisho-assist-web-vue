@@ -1,4 +1,4 @@
-import { defineStore } from 'pinia';
+import { defineStore } from 'pinia'
 
 export const useHistoryStore = defineStore('history', {
   state: () => ({
@@ -8,8 +8,8 @@ export const useHistoryStore = defineStore('history', {
   actions: {
     // 更新当前会话
     updateChatId(newChatId: string) {
-      this.chatId = newChatId;
+      this.chatId = newChatId
     }
   },
   persist: true
-});
+})

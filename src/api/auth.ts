@@ -1,6 +1,6 @@
 // 认证
-import type { MailAuthParams, PasswordAuthParams, SendCodeParams, WxAuthParams, WxQrCodeVO } from '@/types/auth';
-import request from '@/http/http';
+import type { MailAuthParams, PasswordAuthParams, SendCodeParams, WxAuthParams, WxQrCodeVO } from '@/types/auth'
+import request from '@/http/http'
 
 /**
  * 密码认证
@@ -10,8 +10,8 @@ import request from '@/http/http';
  * @returns
  */
 export function passwordAuth(params: PasswordAuthParams) {
-  console.log(params);
-  return request.post('/password_auth', params);
+  console.log(params)
+  return request.post('/passwordAuth', params)
 }
 
 /**
@@ -22,7 +22,7 @@ export function passwordAuth(params: PasswordAuthParams) {
  * @returns
  */
 export function mailAuth(params: MailAuthParams) {
-  return request.post('/mail_auth', params);
+  return request.post('/mailAuth', params)
 }
 
 /**
@@ -33,7 +33,7 @@ export function mailAuth(params: MailAuthParams) {
  * @returns
  */
 export function sendCode(params: SendCodeParams) {
-  return request.post('/send_code', params);
+  return request.post('/sendCode', params)
 }
 
 /**
@@ -41,7 +41,7 @@ export function sendCode(params: SendCodeParams) {
  * @returns
  */
 export function getQrCode(): Promise<WxQrCodeVO> {
-  return request.get('/get_qrcode');
+  return request.get('/getQrcode')
 }
 
 /**
@@ -51,5 +51,5 @@ export function getQrCode(): Promise<WxQrCodeVO> {
  * @returns
  */
 export function wxAuth(params: WxAuthParams) {
-  return request.post('/wx_auth', params);
+  return request.post('/wxAuth', params)
 }

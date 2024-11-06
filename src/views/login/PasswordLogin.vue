@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import { reactive } from 'vue';
-import { passwordAuth } from '@/api/auth';
-import { setToken } from '@/http/token';
-import { Message } from '@arco-design/web-vue';
-import { useRouter } from 'vue-router';
+import { reactive } from 'vue'
+import { passwordAuth } from '@/api/auth'
+import { setToken } from '@/http/token'
+import { Message } from '@arco-design/web-vue'
+import { useRouter } from 'vue-router'
 
-const EMAIL_REGEX: string = '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$';
+const EMAIL_REGEX: string = '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'
 // 密码正则表达式，密码必须包含字母和数字,6-24位
-const PASSWORD_REGEX: string = '^[a-zA-Z0-9_-]{6,24}$';
+const PASSWORD_REGEX: string = '^[a-zA-Z0-9_-]{6,24}$'
 
 // 密码登录表单
 const passwordForm = reactive({
   account: '',
   password: ''
-});
+})
 
 // 定义表单校验规则
 const passwordRules = {
@@ -25,9 +25,9 @@ const passwordRules = {
     {
       validator: (value: any, callback: any) => {
         if (!value.match(EMAIL_REGEX)) {
-          return callback('请输入正确的邮箱');
+          return callback('请输入正确的邮箱')
         } else {
-          return callback();
+          return callback()
         }
       }
     }
@@ -40,41 +40,41 @@ const passwordRules = {
     {
       validator: (value: any, callback: any) => {
         if (!value.match(PASSWORD_REGEX)) {
-          return callback('密码必须包含数字、字母，长度为6-16');
+          return callback('密码必须包含数字、字母，长度为6-16')
         } else {
-          return callback();
+          return callback()
         }
       }
     }
   ]
-};
+}
 
 // 重置密码
 const resetPasswordForm = () => {
-  passwordForm.password = '';
-  passwordForm.account = '';
-};
+  passwordForm.password = ''
+  passwordForm.account = ''
+}
 
-const router = useRouter();
+const router = useRouter()
 // 处理密码登录
 const handlePasswordLoginSubmit = async ({ values }: any) => {
   // 解析账号和密码
-  const { account, password } = values;
-  console.log(account, password);
+  const { account, password } = values
+  console.log(account, password)
   await passwordAuth({
     email: account,
     password: password
   }).then((result) => {
     // 设置token
-    setToken(result);
+    setToken(result)
     // 提示
-    Message.success('登录成功');
+    Message.success('登录成功')
     // 跳转首页
-    router.push('/chat');
+    router.push('/chat')
     // 重置表单
-    resetPasswordForm();
-  });
-};
+    resetPasswordForm()
+  })
+}
 </script>
 
 <template>
