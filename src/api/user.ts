@@ -1,4 +1,4 @@
-import type { BindEmailParams, ModifyPasswordParams, SetPasswordParams, UserInfoRes } from '@/types/user'
+import type { ModifyEmailParams, ModifyPasswordParams, SetPasswordParams, UserInfoRes } from '@/types/user'
 import request, { type Result } from '@/http/http'
 import { getToken } from '@/http/token'
 
@@ -13,14 +13,14 @@ export function getUserInfo(): Promise<UserInfoRes> {
 }
 
 /**
- * 绑定邮箱
- * @param {object} params 绑定邮箱command
+ * 修改邮箱
+ * @param {object} params 修改邮箱command
  * @param {string} params.email 邮箱
  * @param {string} params.code 验证码
  * @returns
  */
-export function bindEmail(params: BindEmailParams) {
-  return request.post('/user/bindEmail', params)
+export function modifyEmail(params: ModifyEmailParams) {
+  return request.post(`/user/modifyEmail`, params)
 }
 
 /**
@@ -44,6 +44,15 @@ export function setPassword(params: SetPasswordParams) {
  */
 export function modifyPassword(params: ModifyPasswordParams) {
   return request.post('/user/modifyPassword', params)
+}
+
+/**
+ * 修改用户信息
+ * @param {string} username
+ * @returns
+ */
+export function modifyUserInfo(username: string) {
+  return request.post(`/user/modifyUsername?username=${username}`)
 }
 
 /**

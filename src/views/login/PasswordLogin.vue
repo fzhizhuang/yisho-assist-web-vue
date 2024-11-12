@@ -4,10 +4,7 @@ import { passwordAuth } from '@/api/auth'
 import { setToken } from '@/http/token'
 import { Message } from '@arco-design/web-vue'
 import { useRouter } from 'vue-router'
-
-const EMAIL_REGEX: string = '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'
-// 密码正则表达式，密码必须包含字母和数字,6-24位
-const PASSWORD_REGEX: string = '^[a-zA-Z0-9_-]{6,24}$'
+import { Regx } from '@/types'
 
 // 密码登录表单
 const passwordForm = reactive({
@@ -24,8 +21,8 @@ const passwordRules = {
     },
     {
       validator: (value: any, callback: any) => {
-        if (!value.match(EMAIL_REGEX)) {
-          return callback('请输入正确的邮箱')
+        if (!value.match(Regx.email)) {
+          return callback(Regx.emailError)
         } else {
           return callback()
         }
@@ -39,8 +36,8 @@ const passwordRules = {
     },
     {
       validator: (value: any, callback: any) => {
-        if (!value.match(PASSWORD_REGEX)) {
-          return callback('密码必须包含数字、字母，长度为6-16')
+        if (!value.match(Regx.password)) {
+          return callback(Regx.passwordError)
         } else {
           return callback()
         }

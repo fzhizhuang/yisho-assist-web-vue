@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { getUserInfo } from '@/api/user'
+import { getUserInfo, modifyUserInfo } from '@/api/user'
 import type { UserInfoRes } from '@/types/user'
 
 // 用户Store
@@ -18,6 +18,12 @@ export const useUserStore = defineStore('user', {
     // 更新userinfo中的avatar
     updateAvatar(avatar: string) {
       this.userInfo!.user.avatar = avatar
+    },
+    // 更新用户昵称
+    async updateUsername(username: string) {
+      await modifyUserInfo(username)
+      const userInfo = await getUserInfo()
+      this.userInfo!.user.username = userInfo.user.username
     }
   },
   persist: true

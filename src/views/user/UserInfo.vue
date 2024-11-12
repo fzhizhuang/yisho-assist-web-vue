@@ -2,13 +2,39 @@
 import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia'
 import Icon from '@/components/Icon.vue'
-import { IconEdit } from '@arco-design/web-vue/es/icon'
+import { IconEdit, IconCheck } from '@arco-design/web-vue/es/icon'
 import { useRouter } from 'vue-router'
 import ImageCropper from '@/components/ImageCropper.vue'
+import { ref } from 'vue'
 
 const userStore = useUserStore()
 const { userInfo } = storeToRefs(userStore)
 const router = useRouter()
+
+// 修改用户昵称
+const editName = ref(false)
+const userName = ref(userStore?.userInfo?.user?.username)
+
+// 更新昵称
+const updateName = (value: string) => {
+  userName.value = value
+}
+
+const updateEditName = (value: boolean) => {
+  editName.value = value
+}
+
+// 更新修改昵称
+const handleUpdateName = () => {
+  const username = userName.value
+  if (username === '' || username === undefined) {
+    throw new Error('昵称为空')
+  }
+  // 修改用户昵称
+  userStore.updateUsername(username)
+  // 更新状态
+  updateEditName(false)
+}
 
 // 更新显示修改头像弹窗
 const openAvatarDialog = () => {
@@ -33,8 +59,13 @@ const goToTargetPage = (path: string) => {
         </template>
       </a-avatar>
       <div class="user-box-header-name">
-        <div class="user-box-header-name-text">
+        <div class="user-box-header-name-text" style="display: flex; align-items: center; gap: 10px" v-if="editName">
+          <a-input :default-value="userName" @input="(value) => updateName(value)" />
+          <IconCheck style="padding-left: 10px; cursor: pointer" @click="handleUpdateName" />
+        </div>
+        <div class="user-box-header-name-text" v-else>
           {{ userInfo?.user?.username }}
+          <IconEdit style="padding-left: 10px; cursor: pointer" @click="() => updateEditName(true)" />
         </div>
         <div class="user-box-header-name-subtext">ID: {{ userInfo?.user?.userId }}</div>
       </div>
@@ -50,7 +81,7 @@ const goToTargetPage = (path: string) => {
         <div class="user-box-body-card-icon">
           <Icon icon-name="icon-bandMail" class="card-icon" />
         </div>
-        <div class="user-box-body-card-text">绑定邮箱</div>
+        <div class="user-box-body-card-text">修改邮箱</div>
       </div>
       <div class="user-box-body-card" @click="goToTargetPage('/setPassword')">
         <div class="user-box-body-card-icon">
@@ -74,7 +105,6 @@ const goToTargetPage = (path: string) => {
   height: calc(100vh - 80px);
 
   .user-box-header-info {
-    height: 64px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -105,7 +135,7 @@ const goToTargetPage = (path: string) => {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 100px;
+    margin-top: 64px;
 
     .user-box-body-card {
       display: flex;

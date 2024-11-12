@@ -1,46 +1,54 @@
 <script setup lang="ts">
-import { reactive } from 'vue';
-import { Message } from '@arco-design/web-vue';
-import { modifyPassword } from '@/api/user';
-import { UserRegx } from '@/types/user';
+import { reactive } from 'vue'
+import { Message } from '@arco-design/web-vue'
+import { modifyPassword } from '@/api/user'
+import { Regx } from '@/types'
+import { IconUndo } from '@arco-design/web-vue/es/icon'
+import { useRouter } from 'vue-router'
 
 const modifyPasswordForm = reactive({
   oldPassword: '',
   newPassword: '',
   confirmPassword: ''
-});
+})
 
 const resetModifyPassword = () => {
-  modifyPasswordForm.oldPassword = '';
-  modifyPasswordForm.newPassword = '';
-  modifyPasswordForm.confirmPassword = '';
-};
+  modifyPasswordForm.oldPassword = ''
+  modifyPasswordForm.newPassword = ''
+  modifyPasswordForm.confirmPassword = ''
+}
 
 // 提交表单
 const handleModifyPasswordSubmit = ({ values }: any) => {
-  const { oldPassword, newPassword, confirmPassword } = values;
+  const { oldPassword, newPassword, confirmPassword } = values
   // 校验旧密码
-  if (!oldPassword || !oldPassword.match(UserRegx.password)) {
-    return;
+  if (!oldPassword || !oldPassword.match(Regx.password)) {
+    return
   }
   // 校验新密码
-  if (!newPassword || !newPassword.match(UserRegx.password) || oldPassword === newPassword) {
-    return;
+  if (!newPassword || !newPassword.match(Regx.password) || oldPassword === newPassword) {
+    return
   }
   // 校验确认密码
-  if (!confirmPassword || !confirmPassword.match(UserRegx.password || newPassword !== confirmPassword)) {
-    return;
+  if (!confirmPassword || !confirmPassword.match(Regx.password || newPassword !== confirmPassword)) {
+    return
   }
-  console.log(oldPassword, newPassword, confirmPassword);
+  console.log(oldPassword, newPassword, confirmPassword)
   modifyPassword({
     confirmPassword: confirmPassword,
     newPassword: newPassword,
     oldPassword: oldPassword
   }).then(() => {
-    resetModifyPassword();
-    Message.success('修改成功');
-  });
-};
+    resetModifyPassword()
+    Message.success('修改成功')
+  })
+}
+
+const router = useRouter()
+// 返回
+const goBack = () => {
+  router.back()
+}
 </script>
 
 <template>
@@ -54,13 +62,10 @@ const handleModifyPasswordSubmit = ({ values }: any) => {
           :validate-trigger="['change', 'input', 'blur']"
           :rules="[
             { required: true, message: '请输入旧密码' },
-            {
-              match: UserRegx.password,
-              message: UserRegx.passwordError
-            }
+            { match: Regx.password, message: Regx.passwordError }
           ]"
         >
-          <a-input v-model="modifyPasswordForm.oldPassword" placeholder="请输入旧密码" />
+          <a-input-password v-model="modifyPasswordForm.oldPassword" placeholder="请输入旧密码" />
         </a-form-item>
         <a-form-item
           field="newPassword"
@@ -68,10 +73,7 @@ const handleModifyPasswordSubmit = ({ values }: any) => {
           :validate-trigger="['change', 'input']"
           :rules="[
             { required: true, message: '请输入新密码' },
-            {
-              match: UserRegx.password,
-              message: UserRegx.passwordError
-            },
+            { match: Regx.password, message: Regx.passwordError },
             {
               validator: (value: string, callback: Function) => {
                 if (value === modifyPasswordForm.oldPassword) {
@@ -82,7 +84,7 @@ const handleModifyPasswordSubmit = ({ values }: any) => {
             }
           ]"
         >
-          <a-input v-model="modifyPasswordForm.newPassword" placeholder="请输入密码" />
+          <a-input-password v-model="modifyPasswordForm.newPassword" placeholder="请输入密码" />
         </a-form-item>
         <a-form-item
           field="confirmPassword"
@@ -90,10 +92,7 @@ const handleModifyPasswordSubmit = ({ values }: any) => {
           :validate-trigger="['change', 'input']"
           :rules="[
             { required: true, message: '请输入确认密码' },
-            {
-              match: UserRegx.password,
-              message: UserRegx.passwordError
-            },
+            { match: Regx.password, message: Regx.passwordError },
             {
               validator: (value: string, callback: Function) => {
                 if (value !== modifyPasswordForm.newPassword) {
@@ -104,11 +103,17 @@ const handleModifyPasswordSubmit = ({ values }: any) => {
             }
           ]"
         >
-          <a-input v-model="modifyPasswordForm.confirmPassword" placeholder="请输入确认密码" />
+          <a-input-password v-model="modifyPasswordForm.confirmPassword" placeholder="请输入确认密码" />
         </a-form-item>
         <a-form-item>
           <a-button type="primary" html-type="submit" long> 提交</a-button>
         </a-form-item>
+        <a-button :type="'outline'" long style="margin-top: 20px" @click="goBack">
+          <template #icon>
+            <IconUndo />
+          </template>
+          返回
+        </a-button>
       </a-form>
     </div>
   </div>

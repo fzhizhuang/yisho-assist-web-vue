@@ -11,7 +11,7 @@ import request from '@/http/http'
  */
 export function passwordAuth(params: PasswordAuthParams) {
   console.log(params)
-  return request.post('/passwordAuth', params)
+  return request.post('/auth/password', params)
 }
 
 /**
@@ -22,7 +22,7 @@ export function passwordAuth(params: PasswordAuthParams) {
  * @returns
  */
 export function mailAuth(params: MailAuthParams) {
-  return request.post('/mailAuth', params)
+  return request.post('/auth/email', params)
 }
 
 /**
@@ -51,5 +51,5 @@ export function getQrCode(): Promise<WxQrCodeVO> {
  * @returns
  */
 export function wxAuth(params: WxAuthParams) {
-  return request.post('/wxAuth', params)
+  return request.post('/auth/wx', params)
 }

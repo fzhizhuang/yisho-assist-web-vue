@@ -25,10 +25,19 @@ export interface MailAuthParams {
  */
 export interface SendCodeParams {
   /*邮箱 */
-  mail?: string
+  email: string
 
-  /*模板 */
-  template: string
+  /*验证码模板 1-AUTH 2-MODIFY_EMAIL 3-RESET_PASSWORD */
+  codeTemplate: number
+}
+
+/**
+ * 验证码模板
+ */
+export enum CodeTemplate {
+  AUTH = 1,
+  MODIFY_EMAIL = 2,
+  RESET_PASSWORD = 3
 }
 
 /**

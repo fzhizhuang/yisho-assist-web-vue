@@ -2,7 +2,6 @@ import { getToken } from '@/http/token'
 import { Message } from '@arco-design/web-vue'
 
 export type Result<T> = {
-  success: boolean
   code: number
   message: string
   data: T
@@ -48,16 +47,14 @@ class Request {
 
     const response = await fetch(fullUrl, requestOptions)
     const res = await response.json()
-    const result: Result<T> = { success: res.success, code: res.code, message: res.message, data: res.data }
+    const result: Result<T> = { code: res.code, message: res.message, data: res.data }
 
-    if (!result.success) {
-      let message = ''
-      if (result.code === 1003) {
-        // 跳转登录
-        window.location.href = '/login'
-      } else if (result.code !== 200 && result.code !== 2001) {
-        message = result.message
-      }
+    let message = ''
+    if (result.code === 1003) {
+      // 跳转登录
+      window.location.href = '/login'
+    } else if (result.code !== 200 && result.code !== 1009) {
+      message = result.message
       Message.error(message)
       throw new Error(message)
     }

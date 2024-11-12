@@ -54,13 +54,11 @@ export interface OpenaiMessage {
   sendTime?: string
 }
 
-export enum MailTemplate {
-  // 认证
-  authentic = 'authentic',
-  // 修改邮箱
-  modifyMail = 'modifyMail',
-  // 绑定邮箱
-  bindMail = 'bindMail',
-  // 重置密码
-  resetPassword = 'resetPassword'
+export const Regx = {
+  password: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{4,12}$/,
+  passwordError: '密码必须包含字母和数字,4-12位',
+  email: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+  emailError: '非法邮箱',
+  code: /^[0-9]{4}$/,
+  codeError: '验证码必须为4位数字'
 }

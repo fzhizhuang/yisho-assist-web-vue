@@ -1,46 +1,53 @@
 <script setup lang="ts">
-import { reactive } from 'vue';
-import { setPassword } from '@/api/user';
-import { Message } from '@arco-design/web-vue';
-import { UserRegx } from '@/types/user';
+import { reactive } from 'vue'
+import { setPassword } from '@/api/user'
+import { Message } from '@arco-design/web-vue'
+import { Regx } from '@/types'
+import { IconUndo } from '@arco-design/web-vue/es/icon'
+import { useRouter } from 'vue-router'
 
 const setPasswordForm = reactive({
   password: '',
   confirmPassword: ''
-});
+})
 
 const resetPasswordForm = () => {
-  setPasswordForm.password = '';
-  setPasswordForm.confirmPassword = '';
-};
+  setPasswordForm.password = ''
+  setPasswordForm.confirmPassword = ''
+}
 
 // 提交表单
 const handleSetPasswordSubmit = ({ values }: any) => {
-  const { password, confirmPassword } = values;
+  const { password, confirmPassword } = values
   // 校验密码
-  if (!password || !password.match(UserRegx.password)) {
-    return;
+  if (!password || !password.match(Regx.password)) {
+    return
   }
   // 校验确认密码
-  if (!confirmPassword || !confirmPassword.match(UserRegx.password || password !== confirmPassword)) {
-    return;
+  if (!confirmPassword || !confirmPassword.match(Regx.password || password !== confirmPassword)) {
+    return
   }
-  console.log(password, confirmPassword);
+  console.log(password, confirmPassword)
   setPassword({
     confirmPassword: confirmPassword,
     password: password
   }).then(() => {
-    resetPasswordForm();
-    Message.success('设置成功');
-  });
-};
+    resetPasswordForm()
+    Message.success('设置成功')
+  })
+}
+const router = useRouter()
+// 返回
+const goBack = () => {
+  router.back()
+}
 </script>
 
 <template>
   <div class="set-password-box">
     <div class="title">
       设置密码
-      <span style="font-size: 12px;color: #ffa39e">（首次登录，需设置密码）</span>
+      <span style="font-size: 12px; color: #ffa39e">（首次登录，需设置密码）</span>
     </div>
     <div class="set-password-form">
       <a-form :model="setPasswordForm" layout="vertical" size="large" @submit="handleSetPasswordSubmit">
@@ -50,10 +57,10 @@ const handleSetPasswordSubmit = ({ values }: any) => {
           :validate-trigger="['change', 'input']"
           :rules="[
             { required: true, message: '请输入密码' },
-            { match: UserRegx.password, message: UserRegx.passwordError }
+            { match: Regx.password, message: Regx.passwordError }
           ]"
         >
-          <a-input v-model="setPasswordForm.password" type="password" placeholder="请输入密码" />
+          <a-input-password v-model="setPasswordForm.password" placeholder="请输入密码" />
         </a-form-item>
         <a-form-item
           field="confirmPassword"
@@ -61,10 +68,7 @@ const handleSetPasswordSubmit = ({ values }: any) => {
           :validate-trigger="['change', 'input']"
           :rules="[
             { required: true, message: '请输入确认密码' },
-            {
-              match: UserRegx.password,
-              message: UserRegx.passwordError
-            },
+            { match: Regx.password, message: Regx.passwordError },
             {
               validator: (value: string, callback: Function) => {
                 if (value !== setPasswordForm.password) {
@@ -75,11 +79,17 @@ const handleSetPasswordSubmit = ({ values }: any) => {
             }
           ]"
         >
-          <a-input v-model="setPasswordForm.confirmPassword" type="password" placeholder="请输入确认密码" />
+          <a-input-password v-model="setPasswordForm.confirmPassword" placeholder="请输入确认密码" />
         </a-form-item>
         <a-form-item>
           <a-button type="primary" html-type="submit" long> 提交</a-button>
         </a-form-item>
+        <a-button :type="'outline'" long style="margin-top: 20px" @click="goBack">
+          <template #icon>
+            <IconUndo />
+          </template>
+          返回
+        </a-button>
       </a-form>
     </div>
   </div>

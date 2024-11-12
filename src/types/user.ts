@@ -2,7 +2,7 @@
  * 用户信息
  */
 export interface UserInfoRes {
-  /* 用户信息 */
+  /* */
   user: {
     /*用户ID */
     userId: string
@@ -11,38 +11,38 @@ export interface UserInfoRes {
     username: string
 
     /*用户邮箱 */
-    mail?: string
+    email: string
 
     /*微信ID */
-    openid?: string
+    openid: string
 
     /*用户头像 */
-    avatar?: string
+    avatar: string
 
-    /*用户角色, 1-管理员 2-普通用户 */
-    role: number
+    /*用户角色,可用值:ADMIN,NORMAL,VIP */
+    userRole: string
 
-    /*用户状态 0-禁用 1-启用 */
-    active: number
+    /*用户状态,可用值:DISABLE,ENABLE */
+    userStatus: string
   }
 
-  /* openai额度 */
+  /* */
   quota: {
     /*总额度 */
-    total?: number
+    total: number
 
     /*剩余额度 */
-    surplus?: number
+    surplus: number
   }
 }
 
 // 绑定邮箱参数接口
-export interface BindEmailParams {
+export interface ModifyEmailParams {
   /*邮箱 */
-  email: string
+  email?: string;
 
   /*验证码 */
-  code: string
+  code?: string;
 }
 
 // 设置密码参数接口
@@ -64,13 +64,4 @@ export interface ModifyPasswordParams {
 
   /*确认密码 */
   confirmPassword: string
-}
-
-export const UserRegx = {
-  password: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{4,12}$/,
-  passwordError: '密码必须包含字母和数字,4-12位',
-  email: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
-  emailError: '非法邮箱',
-  code: /^\d{4}$/,
-  codeError: '验证码4位数字'
 }

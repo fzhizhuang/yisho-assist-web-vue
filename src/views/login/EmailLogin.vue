@@ -3,11 +3,10 @@ import { reactive } from 'vue'
 import { useCounter } from '@/utils/counter'
 import { mailAuth, sendCode } from '@/api/auth'
 import { Message } from '@arco-design/web-vue'
-import { MailTemplate } from '@/types'
 import { setToken } from '@/http/token'
 import { useRouter } from 'vue-router'
-
-const EMAIL_REGEX: string = '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'
+import { Regx } from '@/types'
+import { CodeTemplate } from '@/types/auth'
 
 // 密码登录表单
 const emailForm = reactive({
@@ -24,8 +23,8 @@ const emailRules = {
     },
     {
       validator: (value: any, callback: any) => {
-        if (!value.match(EMAIL_REGEX)) {
-          return callback('请输入正确的邮箱')
+        if (!value.match(Regx.email)) {
+          return callback(Regx.emailError)
         } else {
           return callback()
         }
@@ -73,13 +72,13 @@ const handleCode = () => {
   // 倒计时
   handleCounter()
   // 校验邮箱
-  if (!emailForm.email.match(EMAIL_REGEX) || emailForm.email === '') {
+  if (!emailForm.email.match(Regx.email) || emailForm.email === '') {
     return
   }
   // 发送验证码
   sendCode({
-    mail: emailForm.email,
-    template: MailTemplate.authentic
+    email: emailForm.email,
+    codeTemplate: CodeTemplate.AUTH
   }).then(() => {
     Message.success('发送成功')
   })

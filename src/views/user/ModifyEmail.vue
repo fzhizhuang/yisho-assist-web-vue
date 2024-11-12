@@ -1,68 +1,76 @@
 <script setup lang="ts">
-import { reactive } from 'vue';
-import { useCounter } from '@/utils/counter';
-import { sendCode } from '@/api/auth';
-import { MailTemplate } from '@/types';
-import { Message } from '@arco-design/web-vue';
-import { bindEmail } from '@/api/user';
-import { UserRegx } from '@/types/user';
+import { reactive } from 'vue'
+import { useCounter } from '@/utils/counter'
+import { sendCode } from '@/api/auth'
+import { Message } from '@arco-design/web-vue'
+import { CodeTemplate } from '@/types/auth'
+import { Regx } from '@/types'
+import { modifyEmail } from '@/api/user'
+import { IconUndo } from '@arco-design/web-vue/es/icon'
+import { useRouter } from 'vue-router'
 
 // 修改邮箱表单
 const modifyEmailForm = reactive({
   email: '',
   code: ''
-});
+})
 
 // 重置表单
 const resetModifyEmailForm = () => {
-  modifyEmailForm.email = '';
-  modifyEmailForm.code = '';
-};
+  modifyEmailForm.email = ''
+  modifyEmailForm.code = ''
+}
 
-const { text, isSend, handleCounter } = useCounter();
+const { text, isSend, handleCounter } = useCounter()
+const router = useRouter()
 
 // 处理发送验证码
 const handleCode = () => {
   // 倒计时
-  handleCounter();
+  handleCounter()
   // 校验邮箱
-  if (!modifyEmailForm.email.match(UserRegx.email) || !modifyEmailForm.email) {
-    return;
+  if (!modifyEmailForm.email.match(Regx.email) || !modifyEmailForm.email) {
+    return
   }
   // 发送验证码
   sendCode({
-    mail: modifyEmailForm.email,
-    template: MailTemplate.modifyMail
+    email: modifyEmailForm.email,
+    codeTemplate: CodeTemplate.MODIFY_EMAIL
   }).then(() => {
-    Message.success('发送成功');
-  });
-};
+    Message.success('发送成功')
+  })
+}
 
 // 提交表单
 const handleModifyEmailSubmit = ({ values }: any) => {
-  const { email, code } = values;
+  const { email, code } = values
   // 校验邮箱
-  if (!email || !email.match(UserRegx.email)) {
-    return;
+  if (!email || !email.match(Regx.email)) {
+    return
   }
   // 校验验证码
-  if (!code || !code.match(UserRegx.code)) {
-    return;
+  if (!code || !code.match(Regx.code)) {
+    return
   }
-  bindEmail({
+  modifyEmail({
     code: code,
     email: email
   }).then(() => {
-    resetModifyEmailForm();
-    Message.success('修改成功');
-  });
-};
+    resetModifyEmailForm()
+    Message.success('修改成功')
+  })
+}
+
+// 返回
+const goBack = () => {
+  router.back()
+}
 </script>
 
 <template>
   <!-- 修改邮箱 -->
   <div class="modify-email-box">
-    <div class="title">换绑邮箱</div>
+    <div class="title">修改邮箱</div>
     <div class="modify-email-form">
       <a-form :model="modifyEmailForm" layout="vertical" size="large" @submit="handleModifyEmailSubmit">
         <a-form-item
@@ -71,7 +79,7 @@ const handleModifyEmailSubmit = ({ values }: any) => {
           :validate-trigger="['change', 'input', 'blur']"
           :rules="[
             { required: true, message: '请输入邮箱' },
-            { match: UserRegx.email, message: UserRegx.emailError }
+            { match: Regx.email, message: Regx.emailError }
           ]"
         >
           <a-input v-model="modifyEmailForm.email" placeholder="请输入邮箱" />
@@ -82,7 +90,7 @@ const handleModifyEmailSubmit = ({ values }: any) => {
           :validate-trigger="['change', 'input', 'blur']"
           :rules="[
             { required: true, message: '请输入验证码' },
-            { match: UserRegx.code, message: UserRegx.codeError }
+            { match: Regx.code, message: Regx.codeError }
           ]"
         >
           <a-input v-model="modifyEmailForm.code" placeholder="请输入验证码" />
@@ -93,6 +101,12 @@ const handleModifyEmailSubmit = ({ values }: any) => {
         <a-form-item>
           <a-button type="primary" html-type="submit" long> 提交</a-button>
         </a-form-item>
+        <a-button :type="'outline'" long style="margin-top: 20px" @click="goBack">
+          <template #icon>
+            <IconUndo />
+          </template>
+          返回
+        </a-button>
       </a-form>
     </div>
   </div>

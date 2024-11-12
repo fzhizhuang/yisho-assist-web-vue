@@ -38,11 +38,23 @@ watchEffect(() => {
               <span class="user-name">{{ userInfo?.user?.username }}</span>
             </div>
             <div class="quota">
-              <a-tag color="green" size="small">
+              <a-tag color="gray" size="small" v-if="userInfo?.user?.userRole === 'ADMIN'">
                 <template #icon>
                   <IconUser />
                 </template>
-                {{ userInfo?.user?.role === 1 ? '管理员' : '普通用户' }}
+                <span>管理员</span>
+              </a-tag>
+              <a-tag color="green" size="small" v-else-if="userInfo?.user?.userRole === 'NORMAL'">
+                <template #icon>
+                  <IconUser />
+                </template>
+                <span>普通用户</span>
+              </a-tag>
+              <a-tag color="orangered" size="small" v-else>
+                <template #icon>
+                  <IconUser />
+                </template>
+                <span>VIP</span>
               </a-tag>
               <a-tooltip content="剩余额度" position="right">
                 <div class="quota-title">
