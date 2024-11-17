@@ -1,4 +1,4 @@
-import type { ModifyEmailParams, ModifyPasswordParams, SetPasswordParams, UserInfoRes } from '@/types/user'
+import type { ModifyEmailRequest, ModifyPasswordRequest, SetPasswordRequest, UserInfoVO } from '@/types/user'
 import request, { type Result } from '@/http/http'
 import { getToken } from '@/http/token'
 
@@ -8,7 +8,7 @@ const baseUrl = import.meta.env.VITE_BASE_API
  * 获取用户信息
  * @returns 用户信息
  */
-export function getUserInfo(): Promise<UserInfoRes> {
+export function getUserInfo(): Promise<UserInfoVO> {
   return request.get('/user/info')
 }
 
@@ -19,7 +19,7 @@ export function getUserInfo(): Promise<UserInfoRes> {
  * @param {string} params.code 验证码
  * @returns
  */
-export function modifyEmail(params: ModifyEmailParams) {
+export function modifyEmail(params: ModifyEmailRequest) {
   return request.post(`/user/modifyEmail`, params)
 }
 
@@ -30,7 +30,7 @@ export function modifyEmail(params: ModifyEmailParams) {
  * @param {string} params.confirmPassword 确认密码
  * @returns
  */
-export function setPassword(params: SetPasswordParams) {
+export function setPassword(params: SetPasswordRequest) {
   return request.post('/user/setPassword', params)
 }
 
@@ -42,7 +42,7 @@ export function setPassword(params: SetPasswordParams) {
  * @param {string} params.confirmPassword 确认密码
  * @returns
  */
-export function modifyPassword(params: ModifyPasswordParams) {
+export function modifyPassword(params: ModifyPasswordRequest) {
   return request.post('/user/modifyPassword', params)
 }
 

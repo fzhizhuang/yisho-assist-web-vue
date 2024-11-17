@@ -5,8 +5,12 @@ import EmailLogin from '@/views/login/EmailLogin.vue'
 import WxLogin from '@/views/login/WxLogin.vue'
 import { ref } from 'vue'
 
-const activeKey = ref('password')
-const handleTabChange = (key: string) => {
+// 登录方式
+const activeKey = ref<string | number>('password')
+
+// 切换登录方式
+function handleTabChange(key: string | number) {
+  console.log(key)
   activeKey.value = key
 }
 </script>
@@ -18,7 +22,12 @@ const handleTabChange = (key: string) => {
     </div>
     <div class="login-box-right">
       <div class="login-box-right-box">
-        <a-tabs default-active-key="password" style="width: 400px" :animation="true" @change="handleTabChange">
+        <a-tabs
+          default-active-key="password"
+          style="width: 400px"
+          :animation="true"
+          @change="(key: string | number) => handleTabChange(key)"
+        >
           <a-tab-pane key="password" title="密码登录">
             <PasswordLogin />
           </a-tab-pane>

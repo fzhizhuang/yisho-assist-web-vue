@@ -6,21 +6,21 @@ import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia'
 // 路由
 const router = useRouter()
+const userStore = useUserStore()
 const settingStore = useSettingStore()
+const { userInfo } = storeToRefs(userStore)
 
 // 跳转到目标页面
-const goToTargetPage = (target: string) => {
+function goToTargetPage(target: string) {
   settingStore.updateMenu(target)
   router.push(target)
 }
 
 // 注销登录
-const logout = () => {
+function logout() {
   console.log('注销登录')
 }
 
-const userStore = useUserStore()
-const { userInfo } = storeToRefs(userStore)
 </script>
 
 <template>

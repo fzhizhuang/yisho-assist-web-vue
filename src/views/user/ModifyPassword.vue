@@ -2,7 +2,7 @@
 import { reactive } from 'vue'
 import { Message } from '@arco-design/web-vue'
 import { modifyPassword } from '@/api/user'
-import { Regx } from '@/types'
+import { Regx } from '@/types/auth'
 import { IconUndo } from '@arco-design/web-vue/es/icon'
 import { useRouter } from 'vue-router'
 

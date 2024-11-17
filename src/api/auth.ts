@@ -1,5 +1,5 @@
 // 认证
-import type { MailAuthParams, PasswordAuthParams, SendCodeParams, WxAuthParams, WxQrCodeVO } from '@/types/auth'
+import type { MailAuthRequest, PasswordAuthRequest, SendCodeRequest, WxAuthRequest, WxQrCodeVO } from '@/types/auth'
 import request from '@/http/http'
 
 /**
@@ -9,7 +9,7 @@ import request from '@/http/http'
  * @param {string} params.password 密码
  * @returns
  */
-export function passwordAuth(params: PasswordAuthParams) {
+export function passwordAuth(params: PasswordAuthRequest) {
   console.log(params)
   return request.post('/auth/password', params)
 }
@@ -21,7 +21,7 @@ export function passwordAuth(params: PasswordAuthParams) {
  * @param {string} params.code 验证码
  * @returns
  */
-export function mailAuth(params: MailAuthParams) {
+export function mailAuth(params: MailAuthRequest) {
   return request.post('/auth/email', params)
 }
 
@@ -32,7 +32,7 @@ export function mailAuth(params: MailAuthParams) {
  * @param {string} params.template 模板
  * @returns
  */
-export function sendCode(params: SendCodeParams) {
+export function sendCode(params: SendCodeRequest) {
   return request.post('/sendCode', params)
 }
 
@@ -50,6 +50,6 @@ export function getQrCode(): Promise<WxQrCodeVO> {
  * @param {string} params.ticket ticket
  * @returns
  */
-export function wxAuth(params: WxAuthParams) {
+export function wxAuth(params: WxAuthRequest) {
   return request.post('/auth/wx', params)
 }

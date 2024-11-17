@@ -7,22 +7,38 @@ import { useRouter } from 'vue-router'
 
 // 接收父组件传参
 const props = defineProps<{
-  activeKey: string
+  activeKey: string | number
 }>()
+
+const router = useRouter()
 
 // 微信登录二维码url
 const wxLoginQrcodeUrl = ref('')
 const ticket = ref('')
 
+let interval: any
+
 // 获取微信登录二维码
-const getWxLoginQrcode = async () => {
+async function getWxLoginQrcode() {
   await getQrCode().then((res) => {
     wxLoginQrcodeUrl.value = res.url
     ticket.value = res.ticket
   })
 }
 
-let interval: any
+// 轮询微信登录状态
+async function pollingWxLoginStatus() {
+  interval = setInterval(async () => {
+    const token = await wxAuth({
+      ticket: ticket.value
+    })
+    // 设置token
+    setToken(token)
+    // 跳转首页
+    await router.push('/chat')
+  }, 3000)
+}
+
 // 监听激活状态
 watchEffect(() => {
   if (props.activeKey === 'qrcode') {
@@ -33,23 +49,6 @@ watchEffect(() => {
     clearInterval(interval)
   }
 })
-
-const router = useRouter()
-// 轮询微信登录状态
-const pollingWxLoginStatus = async () => {
-  interval = setInterval(() => {
-    wxAuth({
-      ticket: ticket.value
-    }).then((result) => {
-      // 设置token
-      setToken(result)
-      // 提示
-      Message.success('登录成功')
-      // 跳转首页
-      router.push('/chat')
-    })
-  }, 1000)
-}
 </script>
 
 <template>

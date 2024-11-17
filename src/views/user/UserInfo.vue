@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia'
-import Icon from '@/components/Icon.vue'
+import Icon from '@/components/BaseIcon.vue'
 import { IconEdit, IconCheck } from '@arco-design/web-vue/es/icon'
 import { useRouter } from 'vue-router'
 import ImageCropper from '@/components/ImageCropper.vue'

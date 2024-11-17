@@ -5,7 +5,7 @@ export function useCounter(initCount = 60) {
   const text = ref('获取验证码')
   const isSend = ref(false)
 
-  let intervalId
+  let intervalId: any
 
   const startCountdown = () => {
     if (isSend.value && count.value > 0) {

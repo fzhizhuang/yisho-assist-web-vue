@@ -4,7 +4,7 @@ import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import './assets/style/main.scss'
 import 'vue-cropper/dist/index.css'
 import '@arco-design/web-vue/dist/arco.css'
-import '//at.alicdn.com/t/c/font_4725243_o3rh323ra4g.js'
+import '//at.alicdn.com/t/c/font_4725243_9bfrxeeb1kj.js'
 import { Message } from '@arco-design/web-vue'
 
 import App from './App.vue'

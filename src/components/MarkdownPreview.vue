@@ -5,12 +5,9 @@ import hljs from 'highlight.js'
 import 'highlight.js/styles/atom-one-dark.css'
 
 // 接收父组件传入的Markdown内容
-const props = defineProps({
-  markdownContent: {
-    type: String,
-    required: true
-  }
-})
+const { markdownContent } = defineProps<{
+  markdownContent: string
+}>()
 
 // 定义一个ref来获取DOM元素
 const markdownContainer = ref(null)
@@ -19,25 +16,23 @@ const markdownContainer = ref(null)
 const renderMarkdown = () => {
   // 设置marked的配置，使其在解析代码块时调用highlight.js进行高亮
   marked.setOptions({
-    highlight: function (code, lang) {
+    highlight: function (code: any, lang: any) {
       if (lang && hljs.getLanguage(lang)) {
         return hljs.highlight(code, { language: lang }).value
       }
       return hljs.highlightAuto(code).value
     }
   })
-
-  markdownContainer.value.innerHTML = marked(props.markdownContent)
-
+  markdownContainer.value.innerHTML = marked(markdownContent)
   const codeBlocks = markdownContainer.value.querySelectorAll('pre code')
-  codeBlocks.forEach((block) => {
+  codeBlocks.forEach((block: any) => {
     hljs.highlightElement(block)
 
     // 获取代码块的语言类型（如JavaScript等）
     const lang = block
       .getAttribute('class')
       ?.split(' ')
-      .find((cls) => cls.startsWith('language-'))
+      .find((cls: any) => cls.startsWith('language-'))
     const language = lang ? lang.replace('language-', '') : '未知'
 
     // 为每个代码块添加包含代码类型的标题元素
@@ -100,9 +95,10 @@ onMounted(() => {
 
 <style lang="scss">
 .markdown-container {
-  padding: 10px 0;
+  padding: 10px 10px;
   margin: 0;
   font-size: 16px;
+  border-radius: 12px;
 }
 
 .code-title {

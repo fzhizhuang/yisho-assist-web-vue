@@ -1,18 +1,20 @@
 <script setup lang="ts">
-import { watchEffect } from 'vue'
+import {onMounted} from 'vue'
 import MenuList from '@/layout/MenuList.vue'
-import Icon from '@/components/Icon.vue'
+import Icon from '@/components/BaseIcon.vue'
 import FooterBox from '@/layout/FooterBox.vue'
+import { IconUser } from '@arco-design/web-vue/es/icon'
 import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia'
-import { IconUser } from '@arco-design/web-vue/es/icon'
+import {getUserInfo} from "@/api/user";
 
 const userStore = useUserStore()
 const { userInfo } = storeToRefs(userStore)
 
 // 获取用户信息
-watchEffect(() => {
-  userStore.getUserInfo()
+onMounted(async () => {
+  const userInfoVO = await getUserInfo();
+  userStore.setUserInfo(userInfoVO)
 })
 </script>
 

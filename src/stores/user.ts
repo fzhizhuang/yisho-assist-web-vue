@@ -1,17 +1,23 @@
 import { defineStore } from 'pinia'
-import { getUserInfo, modifyUserInfo } from '@/api/user'
-import type { UserInfoRes } from '@/types/user'
+import type { UserInfoVO } from '@/types/user'
+
+interface UserState {
+  userInfo: null | UserInfoVO
+  showCropper: boolean
+}
 
 // 用户Store
 export const useUserStore = defineStore('user', {
-  state: () => ({
-    userInfo: null as UserInfoRes | null,
+  state: (): UserState => ({
+    userInfo: null,
     showCropper: false
   }),
+  getters: {
+    getUserInfo(): UserInfoVO {
+      return this.userInfo!
+    }
+  },
   actions: {
-    async getUserInfo() {
-      this.userInfo = await getUserInfo()
-    },
     updateShowCropper(show: boolean) {
       this.showCropper = show
     },
@@ -21,9 +27,11 @@ export const useUserStore = defineStore('user', {
     },
     // 更新用户昵称
     async updateUsername(username: string) {
-      await modifyUserInfo(username)
-      const userInfo = await getUserInfo()
-      this.userInfo!.user.username = userInfo.user.username
+      this.userInfo!.user.username = username
+    },
+    // 设置用户信息
+    setUserInfo(userInfo: UserInfoVO) {
+      this.userInfo = userInfo
     }
   },
   persist: true

@@ -1,34 +1,16 @@
 <script setup lang="ts">
-import Icon from '@/components/Icon.vue'
+import Icon from '@/components/BaseIcon.vue'
 import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
 import { useSettingStore } from '@/stores/setting'
-
-// 定义菜单数据
-const menuList = [
-  {
-    icon: 'icon-chat',
-    name: 'Ai对话',
-    path: '/chat'
-  },
-  {
-    icon: 'icon-image',
-    name: 'Ai绘画',
-    path: '/image'
-  },
-  {
-    icon: 'icon-shop',
-    name: '商城',
-    path: '/shop'
-  }
-]
+import { menuList } from '@/config/menu'
 
 const router = useRouter()
 const settingStore = useSettingStore()
-// 响应获取pinia中数据
 const { menu } = storeToRefs(settingStore)
+
 // 路由跳转
-const goToTarget = (path: string) => {
+function goToTarget(path: string) {
   settingStore.updateMenu(path)
   router.push(path)
 }

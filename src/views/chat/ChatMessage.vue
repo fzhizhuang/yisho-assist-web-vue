@@ -1,35 +1,56 @@
 <script setup lang="ts">
 import ChatModel from '@/views/chat/ChatModel.vue'
-import { Model } from '@/types'
 import { IconSend } from '@arco-design/web-vue/es/icon'
-import ChatContent from '@/views/chat/ChatContent.vue'
+import { ref, watchEffect } from 'vue'
+import { useOpenaiStore } from '@/stores/openai'
+import { storeToRefs } from 'pinia'
+import { Role } from '@/types/openai'
+import MessageItem from '@/components/MessageItem.vue'
 
-const chatModelList: Array<Model> = [
-  {
-    code: 'gpt-3.5-turbo',
-    description: 'GPT-3.5-Turbo',
-    mid: 'gpt-3.5-turbo',
-    name: 'GPT-3.5-Turbo',
-    price: 0,
-    type: 1
-  },
-  {
-    code: 'gpt-4',
-    description: 'GPT-4',
-    mid: 'gpt-4',
-    name: 'GPT-4',
-    price: 1,
-    type: 1
-  },
-  {
-    code: 'gpt-4-32k',
-    description: 'GPT-4-32k',
-    mid: 'gpt-4-32k',
-    name: 'GPT-4-32k',
-    price: 10,
-    type: 1
+const openaiStore = useOpenaiStore()
+const { selectedHistory, historyList, selectedSession, chatModelList, selectChatModel } = storeToRefs(openaiStore)
+const disabled = ref(true)
+const inputMessage = ref('')
+watchEffect(() => {
+  if (historyList.value) {
+    historyList.value.forEach((item) => {
+      if (item.sessionId === selectedSession.value) {
+        // 更新选中的聊天记录
+        openaiStore.updateSelectedHistory(item)
+      }
+    })
   }
-]
+})
+watchEffect(() => {
+  openaiStore.queryMessageList(selectedSession?.value)
+})
+watchEffect(() => {
+  openaiStore.queryChatModelList()
+})
+const updateInputMessage = (message: string) => {
+  inputMessage.value = message
+}
+watchEffect(() => {
+  disabled.value = inputMessage.value.length === 0
+})
+const sendMessage = () => {
+  const message = inputMessage.value
+  openaiStore.streamCompletion({
+    sessionId: selectedSession?.value,
+    assistId: selectedHistory?.value?.assistId,
+    model: selectChatModel?.value?.modelCode,
+    messages: [
+      {
+        role: Role.ASSISTANT,
+        content: selectedHistory?.value?.prompt
+      },
+      {
+        role: Role.USER,
+        content: message
+      }
+    ]
+  })
+}
 </script>
 
 <template>
@@ -39,10 +60,10 @@ const chatModelList: Array<Model> = [
     <div class="chat-message-box-header">
       <!-- 助手信息 -->
       <div class="chat-message-box-header-title">
-        <a-avatar shape="square">助手</a-avatar>
+        <a-avatar shape="square" :image-url="selectedHistory?.avatar" />
         <div class="chat-message-box-header-title-assist">
-          <span class="chat-message-box-header-title-assist-text">助手</span>
-          <span class="chat-message-box-header-title-assist-desc">描述</span>
+          <span class="chat-message-box-header-title-assist-text">{{ selectedHistory?.assistName }}</span>
+          <span class="chat-message-box-header-title-assist-desc">{{ selectedHistory?.assistDesc }}</span>
         </div>
       </div>
       <!-- 模型信息 -->
@@ -54,7 +75,7 @@ const chatModelList: Array<Model> = [
     <div class="chat-message-box-content">
       <!-- 聊天记录 -->
       <div class="chat-message-box-content-history">
-        <ChatContent />
+        <MessageItem />
       </div>
       <a-divider />
       <!-- 聊天内容 -->
@@ -65,10 +86,11 @@ const chatModelList: Array<Model> = [
             placeholder="输入聊天内容..."
             :auto-size="{ minRows: 5, maxRows: 5 }"
             style="border: none; background: none"
+            @input="updateInputMessage"
           />
         </div>
         <div class="chat-message-box-content-text-button">
-          <a-button shape="round" status="danger">
+          <a-button shape="round" status="danger" :disabled="disabled" @click="sendMessage">
             <template #icon>
               <IconSend />
             </template>
@@ -129,6 +151,7 @@ const chatModelList: Array<Model> = [
       height: 150px;
       display: flex;
       flex-direction: column;
+
       .chat-message-box-content-text-button {
         display: flex;
         justify-content: flex-end;

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import ImageHistory from '@/views/image/ImageHistory.vue'
-import ImageMessage from '@/views/image/ImageMessage.vue'
 </script>
 
 <template>
@@ -10,7 +9,7 @@ import ImageMessage from '@/views/image/ImageMessage.vue'
     </div>
     <a-divider direction="vertical" />
     <div class="image-message-box">
-      <ImageMessage />
+
     </div>
   </div>
 </template>

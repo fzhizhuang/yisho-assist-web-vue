@@ -18,17 +18,22 @@ const router = createRouter({
         {
           path: '/chat',
           name: '对话',
-          component: () => import('../views/chat/ChatMain.vue')
+          component: () => import('../views/chat/ChatContainer.vue')
         },
         {
           path: '/image',
           name: '绘画',
-          component: () => import('../views/image/ImageMain.vue')
+          component: () => import('../views/image/ImageContainer.vue')
         },
         {
           path: '/shop',
           name: '商城',
           component: () => import('../views/shop/ShopMain.vue')
+        },
+        {
+          path: '/assist',
+          name: '助手',
+          component: () => import('../views/assist/Assist.vue')
         },
         {
           path: '/user',
