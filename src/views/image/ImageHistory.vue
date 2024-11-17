@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { IconPlus } from '@arco-design/web-vue/es/icon'
-import HistoryList from '@/components/HistoryList.vue'
 import Icon from '@/components/BaseIcon.vue'
 
 </script>

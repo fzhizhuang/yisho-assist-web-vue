@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { getQrCode, wxAuth } from '@/api/auth'
 import { ref, watchEffect } from 'vue'
-import { Message } from '@arco-design/web-vue'
 import { setToken } from '@/http/token'
 import { useRouter } from 'vue-router'
 
